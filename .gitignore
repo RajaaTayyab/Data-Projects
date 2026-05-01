@@ -1,1 +1,8 @@
+.ipynb_checkpoints/
+
 *.db
+
+*.csv
+
+__pycache__/
+*.pyc
