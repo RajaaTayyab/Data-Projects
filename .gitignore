@@ -2,7 +2,7 @@
 
 *.db
 
-*.csv
+netflix_titles.csv
 
 __pycache__/
 *.pyc

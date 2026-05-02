@@ -3,6 +3,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import ast
 import warnings
+import os
+
 warnings.filterwarnings("ignore")
 
 st.set_page_config(
@@ -35,7 +37,7 @@ plt.rcParams.update({
 # Data loading 
 @st.cache_data
 def load_data():
-    df = pd.read_csv("tmdb_5000_movies.csv")
+    df = pd.read_csv(os.path.join(os.path.dirname(__file__), "tmdb_5000_movies.csv"))
 
     #fixing 0s
     df["release_date"] = pd.to_datetime(df["release_date"], errors="coerce")
