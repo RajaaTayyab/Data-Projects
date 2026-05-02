@@ -292,17 +292,19 @@ with col_e:
     )
 
     for i, row in top10.iterrows():
-        val = row[sort_col]
-        if sort_by == "Revenue":   val_str = f"${val/1e6:.0f}M" if pd.notna(val) else "N/A"
-        elif sort_by == "ROI":     val_str = f"{val:.0f}%" if pd.notna(val) else "N/A"
-        else:                      val_str = f"{val:.1f}" if pd.notna(val) else "N/A"
+        val        = float(row[sort_col])
+        year       = int(row["release_year"])
+        rating     = float(row["vote_average"])
+
+        if sort_by == "Revenue":   val_str = f"${val/1e6:.0f}M"
+        elif sort_by == "ROI":     val_str = f"{val:.0f}%"
+        else:                      val_str = f"{val:.1f}"
 
         with st.container(border=True):
             rank_col, info_col = st.columns([1, 6])
             rank_col.markdown(f"**#{i+1}**")
             info_col.write(f"**{row['title']}**")
-            info_col.caption(f"{int(row['release_year'])} · ⭐ {row['vote_average']:.1f} · {sort_by}: {val_str}")
-
+            info_col.caption(f"{year} · ⭐ {rating:.1f} · {sort_by}: {val_str}")
 st.divider()
 
 # Raw data 
