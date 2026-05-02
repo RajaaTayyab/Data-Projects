@@ -285,16 +285,22 @@ sort_col = sort_col_map[sort_by]
 with col_e:
     st.subheader(f"Top 10 by {sort_by}")
 
-    top10 = (
-        fdf.dropna(subset=[sort_col])
-        .nlargest(10, sort_col)[["title", sort_col, "release_year", "vote_average"]]
+sort_col = sort_col_map[sort_by]
+
+top10 = (
+        fdf[["title", "release_year", "vote_average", "popularity", "revenue_clean", "roi"]]
+        .copy()
+        .apply(pd.to_numeric, errors="coerce")
+        .assign(title=fdf["title"].values)          # restore string column
+        .dropna(subset=[sort_col, "vote_average"])
+        .nlargest(10, sort_col)
         .reset_index(drop=True)
     )
 
-    for i, row in top10.iterrows():
-        val        = float(row[sort_col])
-        year       = int(row["release_year"])
-        rating     = float(row["vote_average"])
+for i, row in top10.iterrows():
+        val    = float(row[sort_col])
+        year   = int(row["release_year"])
+        rating = float(row["vote_average"])
 
         if sort_by == "Revenue":   val_str = f"${val/1e6:.0f}M"
         elif sort_by == "ROI":     val_str = f"{val:.0f}%"
