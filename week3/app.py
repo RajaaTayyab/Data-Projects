@@ -39,13 +39,14 @@ plt.rcParams.update({
 def load_data():
     df = pd.read_csv(os.path.join(os.path.dirname(__file__), "tmdb_5000_movies.csv"))
 
-    #fixing 0s
+    #Dates
     df["release_date"] = pd.to_datetime(df["release_date"], errors="coerce")
     df["release_year"] = df["release_date"].dt.year
     df = df.dropna(subset=["release_year"])
     df["release_year"] = df["release_year"].astype(int)
 
-    #ckeaning dataset
+
+    #cleaning dataset
     df["budget_clean"]  = df["budget"].where(df["budget"] > 100_000)
     df["revenue_clean"] = df["revenue"].where(df["revenue"] > 100_000)
     df["roi"]     = ((df["revenue_clean"] - df["budget_clean"]) / df["budget_clean"] * 100).round(1)
