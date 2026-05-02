@@ -74,7 +74,7 @@ with st.sidebar:
     st.subheader("Era")
     year_range = st.slider(
         "Release years",
-        int(df["release_year"].min()), 2010, (1990, 2024),
+        int(df["release_year"].min()), 2016, (1990, 2016),
         label_visibility="collapsed"
     )
 
@@ -293,9 +293,9 @@ with col_e:
 
     for i, row in top10.iterrows():
         val = row[sort_col]
-        if sort_by == "Revenue":   val_str = f"${val/1e6:.0f}M"
-        elif sort_by == "ROI":     val_str = f"{val:.0f}%"
-        else:                      val_str = f"{val:.1f}"
+        if sort_by == "Revenue":   val_str = f"${val/1e6:.0f}M" if pd.notna(val) else "N/A"
+        elif sort_by == "ROI":     val_str = f"{val:.0f}%" if pd.notna(val) else "N/A"
+        else:                      val_str = f"{val:.1f}" if pd.notna(val) else "N/A"
 
         with st.container(border=True):
             rank_col, info_col = st.columns([1, 6])
